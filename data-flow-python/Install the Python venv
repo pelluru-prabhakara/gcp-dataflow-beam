@@ -1,0 +1,46 @@
+Install the Python venv.
+In any of your Cloud Shell folders, let's create a new folder called venv, install the
+venv package, and activate it. Here's the code you'll need for this:
+mkdir venv
+cd venv
+python3 -m venv beam-env
+source beam-env/bin/activate
+After running the commands, Python will use the dedicated environment for our
+Beam program.
+3. Install the apache-beam package.
+To install the apache-beam package in the environment, run these commands:
+pip install --upgrade pip
+pip install wheel
+pip install 'apache-beam[gcp]==2.34.0'
+cd [your hello world python code directory]
+
+Still in Cloud Shell, declare two environment variables, project_id and region,
+as follows:
+export PROJECT_ID=[YOUR PROJECT ID]
+export REGION=us-central1
+Exercise – Using Cloud Dataflow to stream data from Pub/Sub to GCS 221
+2. Run the Beam application as a typical Python function in the command line. Check
+this out as an example:
+python3 beam_helloworld.py \
+--project=$PROJECT_ID \
+--region=$REGION \
+--runner=DirectRunner \
+--temp_location=gs://$BUCKET_NAME/chapter-6/dataflow/
+temp
+Notice in the preceding command that we declare runner and temp_location
+parameters. You can choose any GCS path in your bucket for the temp_location
+parameter. For the runner, we will choose Direct Runner for now. Direct Runner means
+the application will run on your local machine. In this case, Beam will run the code on the
+Cloud Shell environment—or, in other words, this is not yet a Dataflow application. Later,
+we will just need to change the runner to run Dataflow jobs.
+If successful, the application will look like this:
+Figure 6.14 – Example output after running Dataflow using Direct Runner
+The application will print out the records from the example logs. In the next steps, we will
+transform and store the records in a GCS bucket. But before that, I'll summarize what
+you've done so far in this section, as follows:
+1. You created a very simple Beam code in Python for printing out the records from a
+file that is stored in a GCS bucket.
+2. You activated a Python venv and installed the apache-beam[gcp] package in
+that environment.
+3. You ran the Beam application using Direct Runner from the command line in
+Cloud Shell.
